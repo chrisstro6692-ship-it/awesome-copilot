@@ -67,7 +67,7 @@ The `llms.txt` file must follow this exact structure per the specification:
 
 #### File Link Format
 
-Each file link must follow: `[descriptive-name](relative-url): optional description`
+Each file link must be a list item with a Markdown link (link text: a descriptive name; target: the file's relative URL), followed by `: optional description`.
 
 #### Section Organization
 

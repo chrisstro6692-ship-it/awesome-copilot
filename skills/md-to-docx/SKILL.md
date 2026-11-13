@@ -44,7 +44,7 @@ The converter:
 - **Extracts YAML front-matter** — uses `title`, `date`, `version`, `audience` for the title page
 - **Generates a title page** — with project name, subtitle, date, version, and audience
 - **Generates a table of contents** — built from H1-H3 headings
-- **Embeds PNG images** — resolves `![alt](path)` references relative to the input `.md` file, reads the PNG, and embeds it inline in the Word document
+- **Embeds PNG images** — resolves Markdown image references (`![alt]` followed by `(path)`) relative to the input `.md` file, reads the PNG, and embeds it inline in the Word document
 - **Styled output** — Calibri font, colored headings (`#1F3864`), styled tables with alternating row colors, code blocks in Consolas
 - **Handles all Markdown elements** — headings, paragraphs, tables, code blocks, lists, images, links, horizontal rules
 

@@ -59,7 +59,7 @@ The updated `llms.txt` file must maintain this exact structure per the specifica
 - **Key Files**: Essential files organized by category (H2 sections)
 
 #### File Link Format
-Each file link must follow: `[descriptive-name](relative-url): optional description`
+Each file link must be a list item with a Markdown link (link text: a descriptive name; target: the file's relative URL), followed by `: optional description`.
 
 #### Section Organization
 Organize files into logical H2 sections such as:
