@@ -1,15 +1,6 @@
 ---
 name: mcp-create-adaptive-cards
-description: 'Skill converted from mcp-create-adaptive-cards.prompt.md'
----
-
-````prompt
----
-mode: 'agent'
-tools: ['changes', 'search/codebase', 'edit/editFiles', 'problems']
 description: 'Add Adaptive Card response templates to MCP-based API plugins for visual data presentation in Microsoft 365 Copilot'
-model: 'gpt-4.1'
-tags: [mcp, adaptive-cards, m365-copilot, api-plugin, response-templates]
 ---
 
 # Create Adaptive Cards for MCP Plugins
@@ -370,83 +361,12 @@ Validate cards in:
 - PowerPoint
 - Various viewport widths (contract/expand UI)
 
-## Complete Example
+## Complete Example and Common Patterns
 
-**ai-plugin.json:**
-```json
-{
-  "functions": [
-    {
-      "name": "SearchProjects",
-      "description": "Search for projects with status and details",
-      "capabilities": {
-        "response_semantics": {
-          "data_path": "$.projects",
-          "properties": {
-            "title": "$.name",
-            "subtitle": "$.status",
-            "url": "$.projectUrl"
-          },
-          "static_template": {
-            "type": "AdaptiveCard",
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.5",
-            "body": [
-              {
-                "type": "Container",
-                "$data": "${$root}",
-                "items": [
-                  {
-                    "type": "TextBlock",
-                    "size": "medium",
-                    "weight": "bolder",
-                    "text": "${if(name, name, 'Untitled Project')}",
-                    "wrap": true
-                  },
-                  {
-                    "type": "FactSet",
-                    "facts": [
-                      {
-                        "title": "Status",
-                        "value": "${status}"
-                      },
-                      {
-                        "title": "Owner",
-                        "value": "${if(owner, owner, 'Unassigned')}"
-                      },
-                      {
-                        "title": "Due Date",
-                        "value": "${if(dueDate, dueDate, 'Not set')}"
-                      },
-                      {
-                        "title": "Budget",
-                        "value": "${if(budget, formatNumber(budget, 2), 'N/A')}"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "${if(description, description, 'No description')}",
-                    "wrap": true,
-                    "separator": true
-                  }
-                ]
-              }
-            ],
-            "actions": [
-              {
-                "type": "Action.OpenUrl",
-                "title": "View Project",
-                "url": "${projectUrl}"
-              }
-            ]
-          }
-        }
-      }
-    }
-  ]
-}
-```
+A full end-to-end plugin example and reusable card patterns. See [references/examples-and-patterns.md](references/examples-and-patterns.md) for:
+
+- Complete Example
+- Common Patterns
 
 ## Workflow
 
@@ -470,63 +390,3 @@ Then generate:
 - [Adaptive Card Schema](https://adaptivecards.io/schemas/adaptive-card.json) - Full schema reference
 - [Template Language](https://learn.microsoft.com/en-us/adaptive-cards/templating/language) - Binding syntax guide
 - [JSONPath](https://www.rfc-editor.org/rfc/rfc9535) - Path query syntax
-
-## Common Patterns
-
-### List with Images
-```json
-{
-  "type": "Container",
-  "$data": "${items}",
-  "items": [
-    {
-      "type": "ColumnSet",
-      "columns": [
-        {
-          "type": "Column",
-          "width": "auto",
-          "items": [
-            {
-              "type": "Image",
-              "url": "${thumbnailUrl}",
-              "size": "small",
-              "$when": "${thumbnailUrl != null}"
-            }
-          ]
-        },
-        {
-          "type": "Column",
-          "width": "stretch",
-          "items": [
-            {
-              "type": "TextBlock",
-              "text": "${title}",
-              "weight": "bolder",
-              "wrap": true
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Status Indicators
-```json
-{
-  "type": "TextBlock",
-  "text": "${status}",
-  "color": "${if(status == 'Completed', 'good', if(status == 'In Progress', 'attention', 'default'))}"
-}
-```
-
-### Currency Formatting
-```json
-{
-  "type": "TextBlock",
-  "text": "$${formatNumber(amount, 2)}"
-}
-```
-
-````
